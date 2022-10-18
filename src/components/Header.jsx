@@ -7,7 +7,7 @@ export default function Header() {
   return (
     <div className="px-6 py-4 shadow-md mb-6 flex justify-between items-center">
       <h4 className="font-bold text-3xl text-green-600">
-        R <span className="text-gray-400">Launches</span>
+        Rocket <span className="text-gray-400">Launches</span>
       </h4>
       <span
         className="text-gray-400 hover:text-green-600"
