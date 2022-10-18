@@ -1,8 +1,8 @@
-import { LAUNCHES_ROCKET } from "../../constants/variables";
+import { LAUNCHES_ROCKET, DETAIL_ROCKET } from "../../constants/variables";
 import { gql } from "@apollo/client";
 
-export const useLaunches = (type, data) => {
-  const LAUNCHES_ROCKET_LIST = gql`
+const queries = {
+  [LAUNCHES_ROCKET]: gql`
     query ($limit: Int, $find: LaunchFind) {
       launches(limit: $limit, find: $find) {
         rocket {
@@ -23,11 +23,32 @@ export const useLaunches = (type, data) => {
         upcoming
       }
     }
-  `;
-  switch (type) {
-    case LAUNCHES_ROCKET:
-      return LAUNCHES_ROCKET_LIST;
-    default:
-      break;
-  }
+  `,
+  [DETAIL_ROCKET]: gql`
+    query Rocket($rocketId: ID!) {
+      rocket(id: $rocketId) {
+        description
+        country
+        cost_per_launch
+        company
+        first_flight
+        height {
+          meters
+        }
+        stages
+        type
+        mass {
+          kg
+        }
+        diameter {
+          meters
+        }
+        name
+      }
+    }
+  `,
+};
+
+export const useLaunches = (type) => {
+  return queries[type];
 };

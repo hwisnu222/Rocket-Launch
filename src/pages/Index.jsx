@@ -10,7 +10,7 @@ import { LAUNCHES_ROCKET } from "../constants/variables";
 import { useLaunches } from "../services/query/launches";
 import Header from "../components/Header";
 
-import { MdCloudDownload, MdPreview } from "react-icons/md";
+import { MdPreview, MdClose } from "react-icons/md";
 
 export default function Index() {
   const [detail, setDetail] = useState({});
@@ -56,7 +56,7 @@ export default function Index() {
               />
             </div>
 
-            {!loading && data?.launches?.length && (
+            {!loading && (
               <div className="overflow-auto h-[41rem]">
                 <table className="table-list rounded-md overflow-scroll">
                   <thead>
@@ -100,10 +100,10 @@ export default function Index() {
               </div>
             )}
             {loading && (
-              <p className="text-center p-4 text-gray-500">
-                <MdCloudDownload />
-              </p>
+              <p className="text-center p-4 text-gray-500">Loading ...</p>
             )}
+
+            {!!data?.launches?.length ?? <p>hello</p>}
           </section>
 
           <div className="md:mt-20">
@@ -111,7 +111,9 @@ export default function Index() {
               <div className="border rounded-md">
                 <div className="mb-2 bg-gray-200 p-3 text-gray-600 flex justify-between items-center">
                   <h4 className="font-bold text-xl">Detail Launch</h4>
-                  <span onClick={() => setDetail({})}>X</span>
+                  <span onClick={() => setDetail({})}>
+                    <MdClose size={24} />
+                  </span>
                 </div>
                 <div className="p-4">
                   <table className="table-detail">
@@ -120,7 +122,7 @@ export default function Index() {
                         <td>Rocket</td>
                         <Link to={`/rocket/${detail?.rocket?.rocket?.id}`}>
                           <td className="text-green-600 font-semibold">
-                            : {detail?.rocket?.rocket_name}{" "}
+                            : {detail?.rocket?.rocket_name}
                             <MdPreview className="inline-block" size={24} />
                           </td>
                         </Link>
