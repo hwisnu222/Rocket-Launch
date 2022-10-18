@@ -10,7 +10,13 @@ import { LAUNCHES_ROCKET } from "../constants/variables";
 import { useLaunches } from "../services/query/launches";
 import Header from "../components/Header";
 
-import { MdPreview, MdClose } from "react-icons/md";
+import {
+  MdOutlineKeyboardArrowRight,
+  MdClose,
+  MdOutlineInbox,
+  MdRefresh,
+} from "react-icons/md";
+import PuffLoader from "react-spinners/PuffLoader";
 
 export default function Index() {
   const [detail, setDetail] = useState({});
@@ -45,18 +51,28 @@ export default function Index() {
         >
           <section>
             <div className="flex justify-between items-center mt-6 mb-4">
-              <h3 className="font-bold text-lg text-xl whitespace-nowrap">
+              <h3 className="font-bold text-xl text-xl whitespace-nowrap">
                 Rocket List
               </h3>
-              <input
-                type="text"
-                placeholder="Search rocket name .."
-                className="w-1/2 md:w-1/4 focus:border-green-400 focus:outline-green-500"
-                onChange={(e) => searchRocket(e)}
-              />
+              <div className="w-full flex justify-end items-center">
+                <button onClick={() => refetch()}>
+                  <MdRefresh
+                    size={24}
+                    className={`inline-block text-gray-400 mr-4 cursor-pointer ${
+                      loading && "animate-spin"
+                    }`}
+                  />
+                </button>
+                <input
+                  type="text"
+                  placeholder="Search rocket name .."
+                  className="w-1/2 md:w-1/4 focus:border-green-400 focus:outline-green-500"
+                  onChange={(e) => searchRocket(e)}
+                />
+              </div>
             </div>
 
-            {!loading && (
+            {!loading && !!data?.launches?.length ? (
               <div className="overflow-auto h-[41rem]">
                 <table className="table-list rounded-md overflow-scroll">
                   <thead>
@@ -98,21 +114,29 @@ export default function Index() {
                   </tbody>
                 </table>
               </div>
-            )}
+            ) : null}
             {loading && (
-              <p className="text-center p-4 text-gray-500">Loading ...</p>
+              <p className="flex justify-center items-center p-4 text-gray-500">
+                <PuffLoader color="rgb(22 163 74)" />
+                <span className="ml-4 text-gray-500">Loading ...</span>
+              </p>
             )}
 
-            {!!data?.launches?.length ?? <p>hello</p>}
+            {!data?.launches?.length && !loading ? (
+              <p className="text-center p-4 text-gray-500">Rocket not found!</p>
+            ) : null}
           </section>
 
           <div className="md:mt-20">
             {!!Object.keys(detail).length && (
               <div className="border rounded-md">
                 <div className="mb-2 bg-gray-200 p-3 text-gray-600 flex justify-between items-center">
-                  <h4 className="font-bold text-xl">Detail Launch</h4>
+                  <h4 className="font-bold text-md flex items-center">
+                    <MdOutlineInbox className="inline-block mr-1" size={20} />
+                    Detail Launch
+                  </h4>
                   <span onClick={() => setDetail({})}>
-                    <MdClose size={24} />
+                    <MdClose size={24} className="cursor-pointer" />
                   </span>
                 </div>
                 <div className="p-4">
@@ -120,12 +144,18 @@ export default function Index() {
                     <tbody>
                       <tr>
                         <td>Rocket</td>
-                        <Link to={`/rocket/${detail?.rocket?.rocket?.id}`}>
-                          <td className="text-green-600 font-semibold">
+                        <td className="text-green-600 font-semibold">
+                          <Link
+                            to={`/rocket/${detail?.rocket?.rocket?.id}`}
+                            className="flex items-center"
+                          >
                             : {detail?.rocket?.rocket_name}
-                            <MdPreview className="inline-block" size={24} />
-                          </td>
-                        </Link>
+                            <MdOutlineKeyboardArrowRight
+                              className="inline-block"
+                              size={24}
+                            />
+                          </Link>
+                        </td>
                       </tr>
                       <tr>
                         <td>Launch Date</td>

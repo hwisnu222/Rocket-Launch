@@ -53,3 +53,14 @@ table{
 input{
     @apply p-2 border rounded-md;
 }
+
+.table-rocket-detail{
+    tr{
+        td:first{
+            @apply w-1/2;
+        }
+    }
+    td{
+        @apply p-2;
+    }
+}
