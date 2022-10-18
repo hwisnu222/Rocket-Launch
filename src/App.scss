@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html{
+    font-size: 14px;
+}
+
+.container{
+    @apply px-4 mx-auto;
+}
+
+table{
+    
+    tr{
+        th{
+            @apply px-4 py-3 bg-gray-100 text-gray-600 w-full whitespace-nowrap;
+        }
+
+    }
+}
+
+.table-list{
+    tr{
+        @apply hover:bg-slate-200;
+    }
+    td{
+        @apply px-4 py-4 border-b w-full;
+    }
+}
+
+.card-list{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    @apply my-4;
+
+    .card-menu{
+        @apply border p-3 rounded-md;
+
+        p{
+            @apply text-xs;
+        }
+    }
+}
+
+.table-detail{
+    td{
+        @apply w-full whitespace-nowrap py-2 ;
+    }
+}
+
+input{
+    @apply p-2 border rounded-md;
+}

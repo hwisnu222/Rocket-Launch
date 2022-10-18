@@ -1,0 +1,3 @@
+exports = {
+  LAUNCHES_ROCKET: "LAUNCHES_ROCKET",
+};
